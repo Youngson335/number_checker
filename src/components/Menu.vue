@@ -16,24 +16,46 @@
       >
         <p>{{ item.title }}</p>
       </div>
+      <Slide right class="burger">
+        <div
+          v-for="item in menu_items"
+          :key="item.id"
+          @mouseover="setActive(item.id)"
+          @mouseleave="setInactive(item.id)"
+          @click="selectedMenu(item.id)"
+          class="menu__items"
+          :class="{
+            active: activeItem === item.id,
+            active__menu: activeMenu === item.id,
+            inactive: inactiveItem === item.id,
+          }"
+        >
+          <p>{{ item.title }}</p>
+        </div>
+      </Slide>
     </TransitionGroup>
   </nav>
 </template>
 
 <script>
+import { Slide } from "vue3-burger-menu";
 export default {
+  components: {
+    Slide,
+  },
   data() {
     return {
       menu_items: [
         { id: 0, title: "Инфо", rout: "" },
         { id: 1, title: "Чекер", rout: "check" },
         { id: 2, title: "Оплата", rout: "payment" },
-        { id: 3, title: "Регистрация", rout: "" },
-        { id: 4, title: "Войти", rout: "" },
+        { id: 3, title: "Регистрация", rout: "registration" },
+        { id: 4, title: "Войти", rout: "login" },
       ],
       activeItem: null,
       inactiveItem: null,
       activeMenu: 0,
+      isOpen: false,
     };
   },
   methods: {
@@ -45,8 +67,19 @@ export default {
       this.inactiveItem = itemId;
       this.activeItem = null;
     },
+    resetStyleBurger() {
+      const bckg = document.querySelector(".bm-overlay");
+      const menu = document.querySelector(".bm-menu");
+      menu.style.left = "auto";
+      menu.style.right = "0px";
+      menu.style.width = "0px";
+      if (bckg) {
+        bckg.classList.remove("bm-overlay");
+      }
+    },
     selectedMenu(id) {
-      window.location.href = `/${this.menu_items[id].rout}`;
+      this.resetStyleBurger();
+      this.$router.push(`/${this.menu_items[id].rout}`);
       this.activeMenu = id;
     },
   },
@@ -135,5 +168,45 @@ export default {
 .fade-leave-to {
   opacity: 0;
   transform: translateY(10px);
+}
+.burger {
+  display: none;
+}
+.bm-burger-button {
+  position: relative !important;
+  width: 25px !important;
+  height: 15px !important;
+  left: 0 !important;
+  top: 0 !important;
+  cursor: pointer !important;
+}
+.bm-burger-bars {
+  background-color: #e9e9e9 !important;
+}
+.bm-overlay {
+  background: #184934db !important;
+}
+.bm-item-list .menu__items {
+  border-left: none;
+}
+.bm-menu {
+  background-color: #227454 !important;
+  box-shadow: 0 0 20px 1px rgb(34 34 34 / 100%);
+}
+.bm-overlay {
+  background-color: #30a472db !important;
+  transition: 0.3s all;
+}
+
+@media (max-width: 890px) {
+  .menu__items {
+    display: none;
+  }
+  .burger {
+    display: block;
+  }
+  .bm-overlay {
+    background: #184934db !important;
+  }
 }
 </style>
