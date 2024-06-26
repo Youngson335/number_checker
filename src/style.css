@@ -5,6 +5,12 @@
 :root {
   font-family: "Nunito Sans", sans-serif;
 }
+input {
+  font-family: "Nunito Sans", sans-serif;
+}
+button {
+  font-family: "Nunito Sans", sans-serif;
+}
 #app {
   padding-top: 10px;
 }

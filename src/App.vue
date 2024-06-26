@@ -1,8 +1,8 @@
 <template>
-  <Header class="header" />
-  <div>
+  <Header />
+  <main class="container">
     <router-view></router-view>
-  </div>
+  </main>
 </template>
 <script>
 import Header from "./components/Header.vue";
@@ -20,5 +20,9 @@ html {
 body {
   background-color: #30a472db;
   min-height: 100vh;
+}
+.container {
+  max-width: calc(100% - 30px);
+  margin: 0 auto;
 }
 </style>
